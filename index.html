@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>彰濱癌症中心 系統入口</title>
+
+  <!-- SELA Favicon Set -->
+  <link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="assets/favicon/site.webmanifest">
+  <meta name="theme-color" content="#F36825">
+
+  <link rel="stylesheet" href="css/staff.css">
+</head>
+<body>
+
+<header>
+  <img class="header-logo" src="assets/logo.jpg" alt="Sela">
+  <div class="header-divider"></div>
+  <div class="header-text">
+    <h1>彰濱癌症中心</h1>
+    <p>SYSTEM PORTAL</p>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-badge">CB SHOW · CANCER CENTER</div>
+  <h2>癌症中心<br>系統入口</h2>
+</div>
+
+<main id="tool-main"></main>
+
+<footer>
+  <img class="footer-logo" src="assets/logo.jpg" alt="Sela">
+  <span class="footer-text" id="footer-text">Made by SELA · 彰濱癌症中心專用</span>
+</footer>
+
+<script src="js/version.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/tools.js"></script>
+<script src="js/sortable.js"></script>
+<script>
+  const main = document.getElementById('tool-main');
+
+  // 套用使用者自訂順序後再渲染
+  main.innerHTML = Sortable.applyOrder(CC_TOOLS, 'cc').map(t => `
+    <a href="${t.url}" class="tool-card" data-name="${t.name}" target="_blank" rel="noopener">
+      <div class="tool-icon-wrap">${ICONS[t.icon] || ICONS.users}</div>
+      <span class="tool-name">${t.name}</span>
+    </a>
+  `).join('');
+
+  Sortable.bind(main, 'cc');
+
+  document.getElementById('footer-text').textContent =
+    `Made by SELA · 彰濱癌症中心專用 · ${PORTAL_VERSION}`;
+</script>
+</body>
+</html>

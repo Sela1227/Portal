@@ -1,0 +1,357 @@
+/* ═══════════════════════════════════════════
+   SELA Portal — 同仁首頁樣式
+   ═══════════════════════════════════════════ */
+
+:root {
+  --font: system-ui, -apple-system, "Microsoft JhengHei", "PingFang TC", "Segoe UI", sans-serif;
+  --bg1:  #2d5f96;
+  --bg2:  #1e4070;
+  --glass-bg:     rgba(255,255,255,0.14);
+  --glass-hover:  rgba(255,255,255,0.22);
+  --glass-border: rgba(255,255,255,0.22);
+  --icon-bg:      rgba(255,255,255,0.18);
+  --icon-stroke:  rgba(255,255,255,0.95);
+  --text-main:    rgba(255,255,255,0.96);
+  --text-sub:     rgba(255,255,255,0.55);
+  --divider:      rgba(255,255,255,0.12);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+
+body {
+  font-family: var(--font);
+  min-height: 100vh;
+  background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 100%);
+  background-attachment: fixed;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--text-main);
+}
+
+/* ── Header ── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 56px;
+  background: rgba(30,64,112,0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--divider);
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+  padding-left: max(18px, env(safe-area-inset-left));
+  padding-right: max(18px, env(safe-area-inset-right));
+  gap: 11px;
+}
+
+.header-logo {
+  height: 34px;
+  width: 34px;
+  object-fit: contain;
+  border-radius: 8px;
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.1);
+}
+
+.header-divider {
+  width: 1px;
+  height: 18px;
+  background: var(--divider);
+  flex-shrink: 0;
+}
+
+.header-text h1 {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--text-main);
+}
+
+.header-text p {
+  font-size: 9px;
+  color: var(--text-sub);
+  letter-spacing: 0.12em;
+  margin-top: 1px;
+}
+
+/* ── Hero ── */
+.hero {
+  text-align: center;
+  padding: 28px 20px 22px;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 10px;
+  color: var(--text-sub);
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+
+.hero-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #5EEAD4;
+  flex-shrink: 0;
+}
+
+.hero h2 {
+  font-size: 22px;
+  font-weight: 500;
+  color: #fff;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+}
+
+/* ── Main grid ── */
+main {
+  padding: 4px 12px 0;
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
+  max-width: 520px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* ── Glass card ── */
+.tool-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 10px 18px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.15s, transform 0.12s;
+  cursor: pointer;
+  -webkit-user-select: none;
+  user-select: none;
+  min-height: 90px;
+}
+
+.tool-card:active { background: var(--glass-hover); transform: scale(0.985); }
+
+.tool-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--icon-bg);
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tool-icon-wrap svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--icon-stroke);
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.tool-name {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-main);
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+  text-align: center;
+}
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 24px 0;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.footer-logo {
+  height: 16px;
+  width: 16px;
+  object-fit: contain;
+  border-radius: 4px;
+  opacity: 0.45;
+}
+
+.footer-text {
+  font-size: 10px;
+  color: var(--text-sub);
+  letter-spacing: 0.08em;
+}
+
+/* ═══ Desktop ≥ 640px ═══ */
+@media (min-width: 640px) {
+  header { height: 60px; padding: 0 28px; }
+  .header-logo { height: 38px; width: 38px; border-radius: 9px; }
+  .header-text h1 { font-size: 15px; }
+
+  .hero { padding: 36px 24px 20px; }
+  .hero h2 { font-size: 24px; }
+
+  main {
+    padding: 4px 24px 0;
+    max-width: 900px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+
+  .tool-card {
+    padding: 24px 16px 20px;
+    min-height: 130px;
+    border-radius: 18px;
+  }
+
+  .tool-icon-wrap { width: 50px; height: 50px; border-radius: 13px; }
+  .tool-icon-wrap svg { width: 22px; height: 22px; }
+  .tool-name { font-size: 12.5px; }
+
+  .tool-card:hover { background: var(--glass-hover); transform: translateY(-2px); }
+  .tool-card:active { transform: scale(0.98); }
+
+  footer { padding: 24px 0 36px; }
+}
+
+/* ═══════════════════════════════════════════
+   長按拖曳排序
+   ═══════════════════════════════════════════ */
+
+body.sorting {
+  overscroll-behavior: contain;
+  -webkit-user-select: none;
+  user-select: none;
+  padding-bottom: 76px;
+}
+
+body.sorting .tool-card {
+  touch-action: none;
+}
+
+/* ── 編輯模式：輕微晃動 ── */
+.edit-mode .tool-card:not(.dragging) {
+  animation: jiggle 0.42s ease-in-out infinite;
+}
+
+.edit-mode .tool-card:nth-child(2n)   { animation-delay: -0.14s; }
+.edit-mode .tool-card:nth-child(3n)   { animation-delay: -0.28s; }
+.edit-mode .tool-card:nth-child(3n+1) { animation-delay: -0.07s; }
+
+@keyframes jiggle {
+  0%, 100% { transform: rotate(-0.55deg); }
+  50%      { transform: rotate(0.55deg); }
+}
+
+/* ── 拖曳中的卡片 ── */
+.tool-card.dragging {
+  position: relative;
+  z-index: 150;
+  animation: none !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.3);
+  background: rgba(255,255,255,0.3) !important;
+  border-color: rgba(255,255,255,0.45) !important;
+  opacity: 0.95;
+  transition: none;
+}
+
+/* ── 底部工具列 ── */
+.sort-bar {
+  position: fixed;
+  left: 50%;
+  bottom: max(16px, env(safe-area-inset-bottom));
+  transform: translate(-50%, 140%);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  width: calc(100% - 28px);
+  max-width: 430px;
+  background: rgba(22,48,86,0.92);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 34px rgba(0,0,0,0.34);
+  opacity: 0;
+  transition: transform 0.28s cubic-bezier(0.32,0.72,0,1), opacity 0.22s ease;
+  pointer-events: none;
+}
+
+.sort-bar.show {
+  transform: translate(-50%, 0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sort-hint {
+  flex: 1;
+  text-align: center;
+  font-size: 10.5px;
+  color: rgba(255,255,255,0.5);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.sort-btn {
+  font-family: var(--font);
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  padding: 9px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s;
+}
+
+.sort-btn-ghost {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.22);
+  color: rgba(255,255,255,0.72);
+}
+
+.sort-btn-ghost:active { background: rgba(255,255,255,0.12); }
+
+.sort-btn-solid {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(255,255,255,0.92);
+  color: #1e4070;
+}
+
+.sort-btn-solid:active { background: #fff; }
+
+@media (min-width: 720px) {
+  .sort-bar { bottom: 22px; }
+  .sort-hint { font-size: 11.5px; }
+  .sort-btn-ghost:hover { background: rgba(255,255,255,0.12); }
+  .sort-btn-solid:hover { background: #fff; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edit-mode .tool-card:not(.dragging) { animation: none; }
+  .edit-mode .tool-card:not(.dragging) { outline: 1.5px dashed rgba(255,255,255,0.4); outline-offset: -3px; }
+}

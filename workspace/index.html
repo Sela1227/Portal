@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Sela 系統工具</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- SELA Favicon Set -->
+  <link rel="icon" type="image/x-icon" href="../assets/favicon/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
+  <link rel="manifest" href="../assets/favicon/site.webmanifest">
+  <meta name="theme-color" content="#F36825">
+
+  <link rel="stylesheet" href="../css/workspace.css">
+</head>
+<body>
+
+<header>
+  <img class="header-logo" src="../assets/logo.jpg" alt="Sela">
+  <div class="header-divider"></div>
+  <div class="header-text">
+    <h1>Sela 系統工具</h1>
+    <p>WORKSPACE</p>
+  </div>
+</header>
+
+<main>
+  <section class="section" id="section-rto"></section>
+  <section class="section" id="section-cc"></section>
+  <section class="section" id="section-personal"></section>
+</main>
+
+<footer id="footer-text">Made by SELA</footer>
+
+<!-- Password modal -->
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+  <div class="sheet" id="sheet">
+    <div class="sheet-handle"></div>
+    <div class="sheet-title">請輸入密碼</div>
+    <p class="sheet-sub">個人區域存取驗證</p>
+    <input
+      id="pw"
+      class="pw-input"
+      type="password"
+      inputmode="text"
+      placeholder="——"
+      maxlength="32"
+      autocomplete="off"
+      onkeydown="if(event.key==='Enter')doConfirm()"
+    >
+    <div class="pw-error" id="pw-error"></div>
+    <button class="confirm-btn" onclick="doConfirm()">確認</button>
+    <div class="cancel-link" onclick="closeModal()">取消</div>
+  </div>
+</div>
+
+<script src="../js/version.js"></script>
+<script src="../js/icons.js"></script>
+<script src="../js/tools.js"></script>
+<script src="../js/sortable.js"></script>
+<script src="private.js"></script>
+<script>
+// ── 渲染函式 ──
+
+function cardHTML(tool) {
+  const icon     = ICONS[tool.icon] || ICONS.wrench;
+  const disabled = tool.disabled ? ' disabled' : '';
+  const tag      = tool.url && !tool.disabled ? 'a' : 'div';
+  const href     = tool.url && !tool.disabled ? `href="${tool.url}" target="_blank" rel="noopener"` : '';
+  const badge    = tool.disabled ? '<span class="dev-badge">開發中</span>' : '';
+  return `<${tag} ${href} class="tool-card${disabled}" data-name="${tool.name}">
+    <div class="tool-icon-wrap">${icon}</div>
+    <span class="tool-name">${tool.name}</span>
+    ${badge}
+  </${tag}>`;
+}
+
+function renderSection(id, title, iconKey, tools, orderKey) {
+  const sorted = Sortable.applyOrder(tools, orderKey);
+  document.getElementById(id).innerHTML = `
+    <div class="section-header">
+      <div class="section-icon">${ICONS[iconKey]}</div>
+      <span class="section-title">${title}</span>
+    </div>
+    <div class="tool-grid">${sorted.map(cardHTML).join('')}</div>`;
+  Sortable.bind(document.querySelector(`#${id} .tool-grid`), orderKey);
+}
+
+function renderPersonal(tools) {
+  const grid = document.getElementById('personal-grid');
+  grid.innerHTML = Sortable.applyOrder(tools, 'personal').map(cardHTML).join('');
+  document.getElementById('lock-area').style.display = 'none';
+  grid.style.display = 'grid';
+  Sortable.bind(grid, 'personal');
+}
+
+// ── 初始化 ──
+renderSection('section-rto', '放腫科',   'radio', RTO_TOOLS, 'rto');
+renderSection('section-cc',  '癌症中心', 'heart', CC_TOOLS,  'cc');
+
+document.getElementById('section-personal').innerHTML = `
+  <div class="section-header">
+    <div class="section-icon">${ICONS.lock}</div>
+    <span class="section-title">個人</span>
+  </div>
+  <div id="lock-area" class="lock-area">
+    <div class="lock-circle">${ICONS.lock}</div>
+    <span class="lock-label">此區域需要驗證</span>
+    <button class="unlock-btn" onclick="openModal()">解鎖</button>
+  </div>
+  <div id="personal-grid" class="tool-grid" style="display:none;"></div>`;
+
+document.getElementById('footer-text').textContent = `Made by SELA · ${PORTAL_VERSION}`;
+
+// ── 密碼流程 ──
+
+function openModal() {
+  Sortable.exitEdit();
+  document.getElementById('overlay').classList.add('open');
+  setTimeout(() => document.getElementById('pw').focus(), 300);
+}
+
+function closeModal() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('pw').value = '';
+  document.getElementById('pw-error').textContent = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('overlay')) closeModal();
+}
+
+async function doConfirm() {
+  const input = document.getElementById('pw');
+  const err   = document.getElementById('pw-error');
+  const pw    = input.value;
+  if (!pw) return;
+  try {
+    const tools = await decryptPersonalTools(pw);
+    closeModal();
+    renderPersonal(tools);
+  } catch {
+    err.textContent = '密碼錯誤，請再試一次';
+    input.classList.add('shake');
+    input.addEventListener('animationend', () => input.classList.remove('shake'), { once: true });
+    input.value = '';
+    setTimeout(() => input.focus(), 50);
+  }
+}
+</script>
+</body>
+</html>
