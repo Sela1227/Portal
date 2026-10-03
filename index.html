@@ -47,7 +47,7 @@
 
   // 套用使用者自訂順序後再渲染
   main.innerHTML = Sortable.applyOrder(CC_TOOLS, 'cc').map(t => `
-    <a href="${t.url}" class="tool-card" data-name="${t.name}" target="_blank" rel="noopener">
+    <a href="${t.url}" class="tool-card" data-name="${t.name}" draggable="false" target="_blank" rel="noopener">
       <div class="tool-icon-wrap">${ICONS[t.icon] || ICONS.users}</div>
       <span class="tool-name">${t.name}</span>
     </a>

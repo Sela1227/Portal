@@ -355,3 +355,9 @@ body.sorting .tool-card {
   .edit-mode .tool-card:not(.dragging) { animation: none; }
   .edit-mode .tool-card:not(.dragging) { outline: 1.5px dashed rgba(255,255,255,0.4); outline-offset: -3px; }
 }
+
+/* 停用瀏覽器原生拖曳（<a>/<img> 會干擾自訂拖曳） */
+.tool-card, .tool-card * {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+}

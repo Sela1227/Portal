@@ -2,4 +2,4 @@
    SELA Portal — 版本設定
    ═══════════════════════════════════════════ */
 
-const PORTAL_VERSION = 'V1.8.0';
+const PORTAL_VERSION = 'V1.8.1';

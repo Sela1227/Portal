@@ -99,6 +99,11 @@ const Sortable = (() => {
     if (isDragging) e.preventDefault();
   }, { passive: false });
 
+  /* 擋掉瀏覽器原生拖曳：<a>、<img> 預設可拖，會發出 pointercancel 中斷自訂拖曳 */
+  document.addEventListener('dragstart', e => {
+    if (e.target.closest && e.target.closest('.tool-card')) e.preventDefault();
+  });
+
   /* ── 綁定一個容器 ── */
 
   function bind(container, key) {
@@ -148,13 +153,15 @@ const Sortable = (() => {
       const dx = e.clientX - startX, dy = e.clientY - startY;
       dragging.style.transform = `translate(${dx}px, ${dy}px) scale(1.06)`;
 
-      // 找出指標正下方的卡片（暫時讓自己不參與命中測試）
-      dragging.style.pointerEvents = 'none';
-      const under = document.elementFromPoint(e.clientX, e.clientY);
-      dragging.style.pointerEvents = '';
-
-      const over = under && under.closest('.tool-card');
-      if (!over || over === dragging || over.parentNode !== dragging.parentNode) return;
+      // 指標真正進入其他卡片範圍時才交換（落在間隙則不動，避免連續誤判）
+      let over = null;
+      for (const el of dragging.parentNode.children) {
+        if (el === dragging || !el.classList.contains('tool-card')) continue;
+        const r = el.getBoundingClientRect();
+        if (e.clientX >= r.left && e.clientX <= r.right &&
+            e.clientY >= r.top  && e.clientY <= r.bottom) { over = el; break; }
+      }
+      if (!over) return;
 
       // 交換 DOM，並修正原點，讓卡片視覺上仍黏在手指下
       dragging.style.transform = '';

@@ -71,7 +71,7 @@ function cardHTML(tool) {
   const tag      = tool.url && !tool.disabled ? 'a' : 'div';
   const href     = tool.url && !tool.disabled ? `href="${tool.url}" target="_blank" rel="noopener"` : '';
   const badge    = tool.disabled ? '<span class="dev-badge">開發中</span>' : '';
-  return `<${tag} ${href} class="tool-card${disabled}" data-name="${tool.name}">
+  return `<${tag} ${href} class="tool-card${disabled}" data-name="${tool.name}" draggable="false">
     <div class="tool-icon-wrap">${icon}</div>
     <span class="tool-name">${tool.name}</span>
     ${badge}
